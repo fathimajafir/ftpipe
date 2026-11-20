@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ftpipe"
+version = "0.1.0"
+description = "A small, provider-agnostic text fine-tuning and evaluation pipeline."
+requires-python = ">=3.9"
+# Zero runtime dependencies on purpose: the pipeline runs with the stdlib alone.
+dependencies = []
+
+[project.optional-dependencies]
+# Only needed if you use the `local` provider (LoRA on your own GPU).
+local = ["torch", "transformers", "datasets", "peft", "trl", "accelerate"]
+
+[project.scripts]
+ftpipe = "ftpipe.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+ftpipe = ["templates/*.py"]

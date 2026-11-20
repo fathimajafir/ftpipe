@@ -1,0 +1,40 @@
+{
+  "run_name": "ticket-triage-demo",
+  "seed": 42,
+  "dry_run": false,
+  "data": {
+    "train": "data/raw/train.jsonl",
+    "eval": "data/raw/eval.jsonl",
+    "val_fraction": 0.2,
+    "max_chars": 8000,
+    "dedupe": true
+  },
+  "finetune": {
+    "targets": ["openai", "gemini", "mistral", "together", "local"],
+    "base_model": "gpt-4o-mini-2024-07-18",
+    "hyperparameters": {
+      "epochs": 3,
+      "batch_size": 4,
+      "learning_rate": 0.0001,
+      "lora_r": 16,
+      "lora_alpha": 32
+    },
+    "wait": true,
+    "poll_timeout_s": 5400,
+    "poll_interval_s": 30
+  },
+  "evaluate": {
+    "models": ["mock:base"],
+    "metrics": ["exact_match", "token_f1", "rouge_l"],
+    "limit": 0,
+    "temperature": 0.0,
+    "max_tokens": 256,
+    "judge": {
+      "enabled": false,
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "criteria": ["correctness", "relevance", "clarity"],
+      "sample": 0
+    }
+  }
+}
